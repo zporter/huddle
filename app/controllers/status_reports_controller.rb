@@ -41,7 +41,6 @@ class StatusReportsController < ApplicationController
   # POST /status_reports.xml
   def create
     @status_report = StatusReport.new(params[:status_report])
-    @status_report.status_date = Date.today
 
     respond_to do |format|
       if @status_report.save
