@@ -2,6 +2,7 @@ require 'test_helper'
 
 class StatusReportsControllerTest < ActionController::TestCase
   setup do
+    login_as_one
     @status_report = status_reports(:one)
   end
 
