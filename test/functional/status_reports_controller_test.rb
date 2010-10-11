@@ -64,4 +64,14 @@ class StatusReportsControllerTest < ActionController::TestCase
     assert_equal(Date.today.to_s(:db), actual.status_date.to_s(:db))
     assert_redirected_to status_report_path(actual)
   end
+  
+  test "redirect and logout if the user tries to snipe a user id" do
+    noel = User.create!(:email => 'railsprescriptions@gmail.com', :password => 'banana', :password_confirmation => 'banana')
+    set_current_project(:one)
+    assert_no_difference "StatusReport.count" do
+      post :create, :status_report => { :user_id => noel.id, :yesterday => 'I did stuff', :today => "I'll do stuff" }
+    end
+    assert_nil(session[:user_id])
+    assert_redirected_to new_user_session_path
+  end
 end
