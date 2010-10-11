@@ -40,6 +40,7 @@ class StatusReportsController < ApplicationController
   # POST /status_reports
   # POST /status_reports.xml
   def create
+    params[:status_report].merge!(:user_id => current_user.id, :project_id => current_project.id)
     @status_report = StatusReport.new(params[:status_report])
 
     respond_to do |format|

@@ -51,10 +51,9 @@ class StatusReportsControllerTest < ActionController::TestCase
   
   # Developer-defined tests
   test "creation of status report with data" do
+    set_current_project(:one)
     assert_difference "StatusReport.count", 1 do
       post :create, :status_report => {
-        :project_id => projects(:one).to_param,
-        :user_id => users(:one).to_param,
         :yesterday => "I did stuff",
         :today => "I'll do stuff"
       }
