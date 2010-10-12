@@ -47,4 +47,29 @@ class ProjectsControllerTest < ActionController::TestCase
 
     assert_redirected_to projects_path
   end
+  
+  # user-defined tests
+  test "project timeline index should be sorted correctly" do
+    set_current_project(:huddle)
+    get :show, :id => projects(:huddle).id
+    expected_keys = assigns(:reports).keys.sort.map{ |d| d.to_s(:db) }
+    assert_equal(["2009-01-06", "2009-01-07"], expected_keys)
+    assert_equal([status_reports(:one_tue).id, status_reports(:two_tue).id], assigns(:reports)[Date.parse("2009-01-06")].map(&:id))
+  end
+  
+  test "index should display project timeline" do
+    set_current_project(:huddle)
+    get :show, :id => projects(:huddle).id
+    assert_select 'div[id *= day]', :count => 2
+    assert_select 'div#2009-01-06_day' do
+      assert_select 'div[id *= report]', :count => 2
+      assert_select 'div#?', dom_id(status_reports(:one_tue))
+      assert_select 'div#?', dom_id(status_reports(:two_tue))
+    end
+    assert_select 'div#2009-01-07_day' do
+      assert_select 'div[id *= report]', :count => 2
+      assert_select 'div#?', dom_id(status_reports(:one_wed))
+      assert_select 'div#?', dom_id(status_reports(:two_wed))
+    end
+  end
 end

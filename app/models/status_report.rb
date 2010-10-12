@@ -10,6 +10,9 @@ class StatusReport < ActiveRecord::Base
     end
   end
   
+  # named scopes
+  scope :by_user_name, :include => "user", :order => "users.email ASC", :conditions => "user_id IS NOT NULL"
+  
   before_save :set_status_date
   
   def set_status_date
