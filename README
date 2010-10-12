@@ -1,3 +1,5 @@
 Application built using Noel Rappin's "Rails Test Prescriptions" with minor modifications. It is a project collaboration app.
 
 App contains basic Rails TDD samples. It mainly serves as a way to learn TDD and how it is used in Rails.
+
+Code covers through Chapter 4 of the book.
